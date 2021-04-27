@@ -26,11 +26,14 @@ let imgArray = [
  const left = document.getElementById('left');
  const middle = document.getElementById('middle');
  const righ = document.getElementById('right');
-
+ const viewResult = document.getElementById('viewResult');
+ const resultContainer = document.getElementById('res')
+ 
  let clickNumber = 0; 
  let leftImage = 0;
  let middleImage = 0;
  let rightImage = 0;
+ let attempt=25;
 
  //function helper//
  function getRandomNumber(min, max){
@@ -40,16 +43,18 @@ let imgArray = [
   }
 
 function Images (name){
-this.name = name;
-this.img=`./img/${name}.gpj`;
+this.name = name.split('.')[0];
+this.img=`./img/${name}`;
 Images.all.push(this);
 this.shown = 0;
+ this.click = 0;
 }
 
 Images.all=[];
+Image.prevIndex = [];
 
 for (let i=0, i < imgArray.length; i++){
-let new Images (imgArray)[i]);
+let new Images(imgArray)[i]);
 }
 
 //event handler//
@@ -57,15 +62,15 @@ function eventHandler (e){
     
     if ((e.target.id == 'left' || e.target.id =='"right' || e.target.id === 'middle') && clickNumber < 25)
     
-    if (e.target.id ==== 'left') {
+    if (e.target.id === 'left') {
       Images.all[leftImage].click++;
       console.log(leftImage);
     }
-     if (e.target.id ==== 'righ'){
+     if (e.target.id === 'righ'){
      Images.all[rightImage].click++;
      console.log(rightImage);
 }
-(e.target.id ==== 'middle'){
+     if (e.target.id === 'middle'){
   Images.all[middleImage].click++;
   console.log(middleImage);
 
@@ -102,6 +107,11 @@ Images.all[middleImage.shown].img;
 Images.all[rightImage.shown].img;
 
 }
+
+renderImages();
+imageSection.addEventListener('click', eventHandler);
+
+
 
 function renderChart(){
 let click = [];
@@ -152,10 +162,36 @@ var myChart = new Chart(ctx, {
 });
 }
 
+function viewResults (_evt){
+  let ulE = document.createElement('li');
+  resultContainer.appendChild(ulE);
 
+  for (let i=0; i< Images.all.length; i++){
+    let liE = document.createElement('li');
+    ulE.appendChild(liE);
+    liE.textContent = `${Images.all[i].name} had a ${Images.all[i].click} votes, and was seen a ${Images.all[i].shown}.`;
+  }
 
+viewResult.removeEventListener('click, viewResults');
+}
 
+function randomNumber( min, max ) {
+  min = Math.ceil( min );
+  max = Math.floor( max );
 
+let random;
+let allowed;
+do{
+  random = Math.floor(Math.random()* (max - min +1) + min);
+  allowed = true;
+  for (let i = 0; i <Image.prevIndex.length; i++){
+    if (Image.prevIndex[i] === random){
+      allowed = false;
+    }
+  }
+} while (!allowed);
+return random;
+}
 
-renderImages();
-imageSection.addEventListener('click', eventHandler);
+viewResult.addEventListener('click', viewResults);
+
