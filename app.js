@@ -25,7 +25,7 @@ let imgArray = [
  const imageSection = document.getElementById('image-section');
  const left = document.getElementById('left');
  const middle = document.getElementById('middle');
- const righ = document.getElementById('right');
+ const right = document.getElementById('right');
  const viewResult = document.getElementById('viewResult');
  const resultContainer = document.getElementById('res')
  
@@ -39,12 +39,12 @@ let imgArray = [
  function getRandomNumber(min, max){
  min= Math.ceil (min);
   max = Math.floor (max);
-    return Math.random() * (max - min) + min;
+    return  Math.floor(Math.random() * (max - min) + min) 
   }
 
 function Images (name){
 this.name = name.split('.')[0];
-this.img=`./img/${name}`;
+this.img=`./images/assets/${name}`;
 Images.all.push(this);
 this.shown = 0;
  this.click = 0;
@@ -53,8 +53,8 @@ this.shown = 0;
 Images.all=[];
 Image.prevIndex = [];
 
-for (let i=0, i < imgArray.length; i++){
-let new Images(imgArray)[i]);
+for (let i=0; i < imgArray.length; i++){
+new Images(imgArray[i]);
 }
 
 //event handler//
@@ -96,15 +96,18 @@ console.log(rightImage);
 do {
     rightImage = getRandomNumber (0,imgArray.length -1);
     leftImage = getRandomNumber (0,imgArray.length -1);
-    while (leftImage === middleImage=== rightImage);
 }
-left.src = Images.all [leftImage].img;
-middle.src = Images.all [middleImage].img;
-righ.src = Images.all [rightImage].img;
+    while (leftImage === middleImage=== rightImage);
+    console.log (right);
+    
 
-Images.all[leftImage.shown].img;
-Images.all[middleImage.shown].img;
-Images.all[rightImage.shown].img;
+left.src = Images.all[leftImage].img;
+middle.src = Images.all[middleImage].img;
+right.src = Images.all[rightImage].img;
+
+Images.all[leftImage].shown++;
+Images.all[middleImage].shown++;
+Images.all[rightImage].shown++;
 
 }
 
@@ -122,44 +125,37 @@ for (i=0; i< Images.all.length; i++){
 }
 
 
-  var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: names,
-        datasets: [{
-            label: '# of Votes',
-            data: click,
-            backgroundColor: 
-                'rgba(255, 99, 132, 0.2)',
-            
-            borderColor: 
-                'rgba(255, 99, 132, 1)',
-               
-            
-            borderWidth: 1
-        }, { label: '# of shown',
-        data: shown,
-        backgroundColor: 
-            'rgba(155, 99, 120, 0.2)',
-        
-        borderColor: 
-            'rgba(155, 99, 120, 1)',
-           
-        
-        borderWidth: 1
+let ctx = document.getElementById( 'myChart' ).getContext( '2d' );
+let myChart = new Chart( ctx, {
+  type: 'bar',
+  data: {
+    labels: names,
+    datasets: [{
+      label: '# of Votes',
+      data: clicks,
+      backgroundColor:
+        'rgba(255, 99, 132, 0.2)',
+      borderColor:
+        'rgba(255, 99, 132, 1)',
+      borderWidth: 1,
+    }, {
+      label: '# of shown',
+      data: shown,
+      backgroundColor:
+        'rgba(144, 99, 100, 0.2)',
+      borderColor:
+        'rgba(144, 99, 100, 1)',
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
     }
-
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+  }
+} );
 }
 
 function viewResults (_evt){
